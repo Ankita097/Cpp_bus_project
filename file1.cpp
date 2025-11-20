@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cstdio>
 using namespace std;
 
  class Bus {
@@ -166,7 +167,126 @@ class Route {
             cout << "Route ID not found.\n";
         }
     }
+//route updation
+    void updateRouteRecord() {
+        fstream file("Routes.dat", ios::in | ios::out | ios::binary);
+
+        if (!file) {
+            cout << "No routes file found.\n";
+            return;
+        }
+        int id;
+        cout << "Enter Route ID to update: ";
+        cin >> id;
+
+        Route r;
+        bool found = false;
+
+        // read each record
+        while (file.read((char*)&r, sizeof(r))) {
+            if (r.route_id == id) {
+                cout << "\nExisting details:\n";
+                r.showData();
+
+                cout << "\nEnter new details for this route:\n";
+                r.getData();   // will ask again for ID, starting, destination, distance
+
+                // move the put pointer back one record
+                file.seekp(-static_cast<int>(sizeof(r)), ios::cur);
+                file.write((char*)&r, sizeof(r));
+
+                cout << "Route updated successfully.\n";
+                found = true;
+                break;
+            }
+          }
+
+        file.close();
+
+        if (!found) {
+            cout << "Route ID not found. No record updated.\n";
+        }
+    }
+
+    //delete route
+     void deleteRouteRecord() {
+        ifstream in("Routes.dat", ios::in | ios::binary);
+
+        if (!in) {
+            cout << "No routes file found.\n";
+            return;
+        }
+
+        ofstream out("Temp.dat", ios::out | ios::binary);
+
+        int id;
+        cout << "Enter Route ID to delete: ";
+        cin >> id;
+
+        Route r;
+        bool deleted = false;
+
+         while (in.read((char*)&r, sizeof(r))) {
+            if (r.route_id == id) {
+                cout << "Deleting this route:\n";
+                r.showData();
+                deleted = true;
+                // skip writing this record (so it's deleted)
+                continue;
+            }
+            out.write((char*)&r, sizeof(r));
+        }
+
+        in.close();
+        out.close();
+
+        if (!deleted) {
+            cout << "Route ID not found. No record deleted.\n";
+            remove("Temp.dat");   // cleanup temp
+            return;
+        }
+
+         // Replace original file with updated file
+        remove("Routes.dat");
+        rename("Temp.dat", "Routes.dat");
+
+        cout << "Route deleted successfully.\n";
+    }
 };
+
+void routeOperations() {
+    Route r;
+    int choice;
+
+    cout << "\n--- Route Operations ---\n";
+    cout << "1. Add Route\n";
+    cout << "2. View All Routes\n";
+    cout << "3. Search Route by ID\n";
+    cout << "4. Update Route by ID\n";
+    cout << "5. Delete Route by ID\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
+
+    switch (choice) {
+        case 1:
+            r.addRouteRecord();
+            break;
+        case 2:
+            r.viewAllRoutes();
+            break;
+        case 3:
+            r.searchRouteById();
+            break;
+        case 4:
+            r.updateRouteRecord();
+            break;
+        case 5:
+            r.deleteRouteRecord();
+            break;
+        default:
+            cout << "Invalid Choice\n";
+    }
+}
 
 
 
