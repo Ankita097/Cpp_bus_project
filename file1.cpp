@@ -246,7 +246,6 @@ class Route {
             return;
         }
 
-         // Replace original file with updated file
         remove("Routes.dat");
         rename("Temp.dat", "Routes.dat");
 
@@ -442,17 +441,24 @@ void busOperations(){
 int main(){
     int choice;
 
-    cout<<"Enter 1 for bus related operation\n";
+    cout << "\n===== Bus Management System =====\n";
+
+    cout << "1. Bus related operations\n";
+    cout << "2. Route related operations\n";
 
     cout<<"Enter you choice: ";
     cin>>choice;
 
-    switch(choice){
+    switch (choice) {
         case 1:
-          busOperations();
+            busOperations();
+            break;
+        case 2:
+            routeOperations();
+            break;
+        default:
+            cout << "Invalid choice\n";
     }
-
-
-
-     return 0;
+     
+    return 0;
 }
