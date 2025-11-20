@@ -260,6 +260,20 @@ class Schedule {
 };
 
 
+void busOperations(){
+  Bus b;
+  int choice;
+  cout<<"Enter 1 for showing all the buses\n";
+  cout<<"Enter 2 for showing add the bus\n";
+  cout<<"Enter your choise: ";
+  cin>>choice;
+
+  switch()
+  
+
+
+}
+
 
 
 
