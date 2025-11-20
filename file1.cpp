@@ -2,33 +2,12 @@
 #include <fstream>
 using namespace std;
 
-<<<<<<< HEAD
-class Bus{
-     int bus_id;
-     string bus_number;
-     int seats_capacity; 
-     int seats_availability;
-     string driver_name;
-     string route; 
-
-public:
-
-     Bus(int id, string bus_num, int capacity, int availability, string dri_name, string rout){
-          bus_id = id;
-          bus_number = bus_num;
-          seats_capacity = capacity;
-          seats_availability = availability;
-          driver_name = dri_name;
-          route = rout;
-      }
-=======
  class Bus {
     int bus_id;
     char bus_number[30];
     int seats_capacity;
     char driver_name[50];
     char bus_available[10];   
->>>>>>> 3dc2313b1e034a03a14c64e9623cbc16c48116bd
 
   public:
 
@@ -58,7 +37,7 @@ public:
     }
 
     void addBusRecord() {
-        fstream file("Bus.dat", ios::out | ios::app | ios::binary);
+        ofstream file("Bus.dat", ios::out | ios::app | ios::binary);
 
         if (!file) {
             cout << "Failed to open file\n";
@@ -105,7 +84,7 @@ class Route {
     double distance;
 
  public:
-
+ 
     void getData() {
         cout << "Enter Route ID: ";
         cin >> route_id;
@@ -125,7 +104,7 @@ class Route {
     }
 
     void addRouteRecord() {
-        fstream file("Routes.dat", ios::out | ios::app | ios::binary);
+        ofstream file("Routes.dat", ios::out | ios::app | ios::binary);
 
         if (!file) {
             cout << "Failed to open file." << endl;
@@ -140,7 +119,7 @@ class Route {
     }
 
     void viewAllRoutes() {
-        fstream file("Routes.dat", ios::in | ios::binary);
+        ifstream file("Routes.dat", ios::in | ios::binary);
 
         if (!file) {
             cout << "No routes file found.\n";
@@ -155,6 +134,37 @@ class Route {
         }
 
         file.close();
+    }
+//search route by id
+    void searchRouteById() {
+        ifstream file("Routes.dat", ios::in | ios::binary);
+
+        if (!file) {
+            cout << "No routes file found.\n";
+            return;
+        }
+
+        int id;
+        cout << "Enter Route ID to search: ";
+        cin >> id;
+
+        Route r;
+        bool found = false;
+
+        while (file.read((char*)&r, sizeof(r))) {
+            if (r.route_id == id) {         // allowed: inside same class
+                cout << "Route found:\n";
+                r.showData();
+                found = true;
+                break;
+            }
+        }
+
+        file.close();
+
+        if (!found) {
+            cout << "Route ID not found.\n";
+        }
     }
 };
 
