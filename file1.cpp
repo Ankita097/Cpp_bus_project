@@ -8,7 +8,9 @@ class Bus{
      int seats_availability;
      string driver_name;
      string route; 
+
 public:
+
      Bus(int id, string bus_num, int capacity, int availability, string dri_name, string rout){
           bus_id = id;
           bus_number = bus_num;
