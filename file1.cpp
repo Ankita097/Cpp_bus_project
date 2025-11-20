@@ -53,7 +53,7 @@ using namespace std;
     }
 
     void viewAll() {
-        fstream file("Bus_schedule.dat", ios::in | ios::binary);
+        fstream file("Bus.dat", ios::in | ios::binary);
 
         if (!file) {
             cout << "No file found.\n";
@@ -263,12 +263,21 @@ class Schedule {
 void busOperations(){
   Bus b;
   int choice;
-  cout<<"Enter 1 for showing all the buses\n";
+  cout<<"Enter 1 for register the bus\n";
   cout<<"Enter 2 for showing add the bus\n";
   cout<<"Enter your choise: ";
   cin>>choice;
 
-  switch()
+  switch(choice){
+    case 1:
+       b.addBusRecord();
+       break;
+    case 2:
+       b.viewAll();
+       break;
+    default:
+      cout<<"invalid Choice";
+  }
   
 
 
@@ -280,5 +289,19 @@ void busOperations(){
 
 
 int main(){
+    int choice;
+
+    cout<<"Enter 1 for bus related operation\n";
+
+    cout<<"Enter you choice: ";
+    cin>>choice;
+
+    switch(choice){
+        case 1:
+          busOperations();
+    }
+
+
+
      return 0;
 }
